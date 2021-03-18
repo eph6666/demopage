@@ -18,10 +18,12 @@ podTemplate(label: label, cloud: 'kubernetes', serviceAccount: 'jenkins', contai
                 git branch: 'main', url: 'https://github.com/eph6666/demopage.git'
                 stage('Config') {
                     sh 'ls'
-                    // sh 'sed -i "s/###/$BUILD_NUMBER/g" application.yaml'
+                    sh 'sed -i "s/###/$BUILD_NUMBER/g" application.yaml'
                 }
                 stage('Deploy') {
-                    sh 'kubectl get cm'
+                    sh 'kubectl auth can-i create cm'
+                    sh 'kubectl auth can-i create svc'
+                    sh 'kubectl auth can-i create deployment'
                     sh 'kubectl apply -f application.yaml'
                 }
             }
