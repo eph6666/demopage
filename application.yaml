@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: Service
+metadata:
+creationTimestamp: null
+name: nginx-webpage
+namespace: webpage
+annotations:
+service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+type: NodePort
+ports:
+- nodePort: 31443
+port: 80
+protocol: TCP
+targetPort: 80
+selector:
+run: nginx-webpage
+status:
+loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+creationTimestamp: null
+labels:
+run: nginx-webpage
+name: nginx-webpage
+namespace: webpage
+spec:
+replicas: 1
+selector:
+matchLabels:
+run: nginx-webpage
+strategy: {}
+template:
+metadata:
+creationTimestamp: null
+labels:
+run: nginx-webpage
+spec:
+containers:
+- image: nginx
+name: nginx-webpage
+ports:
+- containerPort: 80
+resources: {}
+volumeMounts:
+- mountPath: /usr/share/nginx/html
+name: index-html
+volumes:
+- name: index-html
+configMap:
+name: index-html
+items:
+- key: index.html
+path: index.html
+status: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: index-html
+namespace: webpage
+labels:
+task: webpage
+k8s-app: webpage
+data:
+index.html: |+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to LUQEL!</title>
+<style>
+body {
+  width: 35em;
+margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+</style>
+</head>
+<body>
+<div style="text-align:center;">
+<h1>Welcome to AWS!</h1>
+<p>Coming soon.</p>
+</div >
+</body>
+</html>
+---
