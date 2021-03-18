@@ -6,7 +6,6 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
 
     node(label) {
         stage('Build') {
-            git 'https://github.com/eph6666/demopage.git'
             container('maven') {
                 stage('Build-1') {
                     sh 'mvn -version'
@@ -15,7 +14,6 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
             }
         }
         stage('Deploy') {
-            git 'https://github.com/eph6666/demopage.git'
             container('kubectl') {
                 stage('Config') {
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" demopage/application.yaml'
