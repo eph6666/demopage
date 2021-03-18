@@ -21,6 +21,7 @@ podTemplate(label: label, cloud: 'kubernetes', serviceAccount: 'jenkins', contai
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" application.yaml'
                 }
                 stage('Deploy') {
+                    sh 'kubectl auth can-i get ns'
                     sh 'kubectl auth can-i create cm'
                     sh 'kubectl auth can-i create svc'
                     sh 'kubectl auth can-i create deployment'
