@@ -8,7 +8,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
         stage('Build') {
             git 'https://github.com/eph6666/demopage.git'
             container('maven') {
-                stage('Build') {
+                stage('Build-1') {
                     sh 'mvn -version'
                     sh 'ls'
                 }
