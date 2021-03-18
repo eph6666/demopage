@@ -1,17 +1,29 @@
 def label = "mypod-${UUID.randomUUID().toString()}"
-podTemplate(label: label, cloud: 'kubernetes') {
+podTemplate(label: label, cloud: 'kubernetes', containers: [
+    containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'kubectl', image: 'k3integrations/kubectl'),
+  ]) {
+
     node(label) {
-        stage('git') {
-            sh 'git clone https://github.com/eph6666/demopage.git'
-        },
-        stage('pre-build') {
-            sh 'sed -i "s/###/$BUILD_NUMBER/g" demopage/application.yaml'
-        },
-        stage('build') {
-            sh 'echo "Build"'
-        },
-        stage('deploy') {
-            sh 'kubectl apply -f demopage/application.yaml'
+        stage('Build') {
+            git 'https://github.com/eph6666/demopage.git'
+            container('maven') {
+                stage('Build') {
+                    sh 'mvn -version'
+                    sh 'ls'
+                }
+            }
+        }
+        stage('Deploy') {
+            git 'https://github.com/eph6666/demopage.git'
+            container('maven') {
+                stage('Config') {
+                    sh 'sed -i "s/###/$BUILD_NUMBER/g" demopage/application.yaml'
+                }
+                stage('Deploy') {
+                    sh 'kubectl apply -f demopage/application.yaml'
+                }
+            }
         }
     }
 }
