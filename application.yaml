@@ -38,10 +38,7 @@ spec:
         name: nginx-webpage
         ports:
         - containerPort: 80
-        resources:
-          limits:
-            cpu: "2"
-            memory: 4Gi
+        resources: {}
         volumeMounts:
         - mountPath: /usr/share/nginx/html
           name: index-html
