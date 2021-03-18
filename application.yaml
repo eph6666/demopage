@@ -42,9 +42,6 @@ spec:
           limits:
             cpu: "2"
             memory: 4Gi
-          requests:
-            cpu: 50m
-            memory: 256Mi
         volumeMounts:
         - mountPath: /usr/share/nginx/html
           name: index-html
@@ -69,7 +66,7 @@ data:
     <!DOCTYPE html>
     <html>
     <head>
-    <title>Welcome to LUQEL!</title>
+    <title>Welcome to AWS!</title>
     <style>
         body {
             width: 35em;
