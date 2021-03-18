@@ -15,6 +15,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
         }
         stage('Deploy') {
             container('kubectl') {
+                git 'https://github.com/jenkinsci/kubernetes-plugin.git'
                 stage('Config') {
                     sh 'pwd'
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" demopage/application.yaml'
