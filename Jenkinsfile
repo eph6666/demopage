@@ -16,7 +16,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
         stage('Deploy') {
             container('kubectl') {
                 stage('Config') {
-                    sh 'ls'
+                    sh 'pwd'
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" demopage/application.yaml'
                 }
                 stage('Deploy') {
