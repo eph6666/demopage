@@ -1,7 +1,7 @@
 def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(label: label, cloud: 'kubernetes', containers: [
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'kubectl', image: 'k3integrations/kubectl'),
+    containerTemplate(name: 'kubectl', image: 'k3integrations/kubectl', ttyEnabled: true, command: 'cat'),
   ]) {
 
     node(label) {
@@ -16,7 +16,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
         }
         stage('Deploy') {
             git 'https://github.com/eph6666/demopage.git'
-            container('maven') {
+            container('kubectl') {
                 stage('Config') {
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" demopage/application.yaml'
                 }
