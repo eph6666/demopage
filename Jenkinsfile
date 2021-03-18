@@ -15,7 +15,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
         }
         stage('Deploy') {
             container('kubectl') {
-                git 'https://github.com/eph6666/demopage.git'
+                git branch: 'main', url: 'https://github.com/eph6666/demopage.git'
                 stage('Config') {
                     sh 'ls'
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" application.yaml'
