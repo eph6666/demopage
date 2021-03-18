@@ -1,7 +1,7 @@
 def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(label: label, cloud: 'kubernetes', serviceAccount: 'jenkins', containers: [
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'kubectl', image: 'k3integrations/kubectl', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'kubectl', image: '111706684826.dkr.ecr.us-east-1.amazonaws.com/library/debug:latest', ttyEnabled: true, command: 'cat'),
   ]) {
 
     node(label) {
