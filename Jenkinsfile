@@ -21,6 +21,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
                     sh 'sed -i "s/###/$BUILD_NUMBER/g" application.yaml'
                 }
                 stage('Deploy') {
+                    sh 'kubectl get cm'
                     sh 'kubectl apply -f application.yaml'
                 }
             }
